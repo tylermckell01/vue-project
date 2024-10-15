@@ -1,9 +1,10 @@
 <template>
-  <div>This is your {{ msg2 }}</div>
+  <div class="header">This is your {{ msg2 }}</div>
   <div class="data-bind">
     This is two-way data binding -->
     <input v-model="message" />
-    <p>{{ message }}</p>
+    <p v-if="message">{{ message }}</p>
+    <div v-else>this is where the input will appear</div>
   </div>
   <button @click="dec">-</button>
   <div class="count">
@@ -43,9 +44,15 @@ export default {
 
 <style lang="scss" scoped>
 div {
-  background-color: #41b883;
+  .header {
+    background-color: #41b883;
+  }
+
+  .data-bind {
+  }
+
   .count {
-    background-color: blue;
+    background-color: rgb(109, 109, 253);
   }
 }
 .data-bind {
