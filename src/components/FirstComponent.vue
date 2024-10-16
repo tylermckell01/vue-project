@@ -6,11 +6,14 @@
     <p v-if="message">{{ message }}</p>
     <div v-else>this is where the input will appear</div>
   </div>
-  <button @click="dec">-</button>
-  <div class="count">
-    <span>{{ count }}</span>
+  <div class="counter">
+    <div class="title">this is the counter</div>
+    <div class="count">
+      <button @click="dec">-</button>
+      <span>{{ count }}</span>
+      <button @click="inc">+</button>
+    </div>
   </div>
-  <button @click="inc">+</button>
 </template>
 
 <script>
@@ -49,16 +52,32 @@ div {
   }
 
   .data-bind {
+    margin: 30px 0;
   }
 
-  .count {
+  .counter {
+    display: flex;
+    flex-direction: column;
+    margin: 30px 0;
+    padding: 10px;
     background-color: rgb(109, 109, 253);
+
+    .count {
+      button {
+        margin: 0 20px;
+        width: 35px;
+        height: 35px;
+        cursor: pointer;
+      }
+    }
   }
-}
-.data-bind {
-  background-color: white;
-  input {
-    width: 200px;
+
+  .data-bind {
+    background-color: white;
+
+    input {
+      width: 200px;
+    }
   }
 }
 </style>
