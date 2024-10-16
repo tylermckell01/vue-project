@@ -1,19 +1,25 @@
 <template>
   <div class="carousel-container">
     <div class="title">Weather Component</div>
-    <div class="component" v-if="data">
+    <div class="component">
       <div class="input">
         <input
           type="text"
           placeholder="Search a new city"
           v-model="inputCity"
         />
-        <button class="submit-button" @click="handleSubmit">submit</button>
+        <button class="submit-button" @click="handleSubmit">search</button>
       </div>
-      <div class="city">Current City: {{ data.address }}</div>
-      <div class="temp">Current Temp: {{ data.currentConditions.temp }}</div>
+      <div class="city">
+        Current City: {{ data != null ? data.address : "n/a" }}
+      </div>
+      <div class="temp">
+        Current Temp:
+        {{ data != null ? data.currentConditions.temp : "n/a" }}
+      </div>
       <div class="time">
-        Current Time: {{ data.currentConditions.datetime }}
+        Current Time:
+        {{ data != null ? data.currentConditions.datetime : "n/a" }}
       </div>
     </div>
   </div>
@@ -22,15 +28,14 @@
 <script>
 import { ref, onMounted } from "vue";
 
+const data = ref(null);
+const inputCity = ref("");
+
 export default {
   name: "FirstCarousel",
   setup() {
-    const data = ref(null);
-    const inputCity = ref("Orem,UT");
-
     const fetchData = async () => {
       const response = await fetch(
-        // ` https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Orem%2CUT?unitGroup=us&key=XPUF7PB4S4B6P9AD5GWFTGPSH&contentType=json `
         ` https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${inputCity.value}?key=XPUF7PB4S4B6P9AD5GWFTGPSH&contentType=json `
       );
 
@@ -39,12 +44,8 @@ export default {
 
     const handleSubmit = () => {
       fetchData();
-      // inputCity.value = "";
+      inputCity.value = "";
     };
-
-    onMounted(() => {
-      fetchData();
-    });
 
     return {
       data,
