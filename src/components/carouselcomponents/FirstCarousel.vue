@@ -7,6 +7,7 @@
           type="text"
           placeholder="Search a new city"
           v-model="inputCity"
+          @keydown.enter="handleSubmit"
         />
         <button class="submit-button" @click="handleSubmit">search</button>
       </div>
@@ -21,38 +22,40 @@
         Current Time:
         {{ data != null ? data.currentConditions.datetime : "n/a" }}
       </div>
+      <!-- <div class="error-toast">{{ cityError.value ? "city error" : null }}</div> -->
     </div>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 
 const data = ref(null);
 const inputCity = ref("");
+const cityError = ref(null);
 
 export default {
   name: "FirstCarousel",
   setup() {
     const fetchData = async () => {
       const response = await fetch(
-        ` https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${inputCity.value}?key=XPUF7PB4S4B6P9AD5GWFTGPSH&contentType=json `
+        `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${inputCity.value}?key=XPUF7PB4S4B6P9AD5GWFTGPSH&contentType=json `
       );
-
       data.value = await response.json();
     };
 
     const handleSubmit = () => {
       fetchData();
       inputCity.value = "";
+      console.log(inputCity.value);
     };
 
     return {
       data,
       inputCity,
+      cityError,
       fetchData,
       handleSubmit,
-      onMounted,
     };
   },
 };
