@@ -10,22 +10,24 @@
           v-model="costInput"
           @keydown.enter="addToList"
         />
-        <button @click="addToList">click</button>
+        <button @click="addToList">add</button>
       </div>
       <div class="list">
         <ul>
           <li v-for="(item, index) in expenseList" :key="index">
-            {{ item.expense }}: ${{ item.cost }}
-            <button @click="editExpense(index)">edit</button>
-            <button @click="removeFromList(index)">-</button>
+            <div v-if="!item.isEditing">
+              {{ item.expense }}: ${{ item.cost }}
+              <button @click="editExpense(index)">edit</button>
+              <button @click="removeFromList(index)">-</button>
+            </div>
+            <div v-else>
+              <input v-model="item.expense" />
+              <input v-model="item.cost" />
+              <button @click="saveExpense(index)">save</button>
+              <button @click="cancelEdit(index)">cancel</button>
+            </div>
           </li>
         </ul>
-      </div>
-      <div v-if="isEditing">
-        <input type="text" />
-        <input type="text" />
-        <button>save</button>
-        <button>cancel</button>
       </div>
     </div>
   </div>
@@ -41,12 +43,11 @@ export default {
     const expenseInput = ref();
     const costInput = ref(0);
 
-    const isEditing = ref(false);
-
     const addToList = () => {
       expenseList.value.push({
         expense: expenseInput.value,
         cost: costInput.value,
+        isEditing: false,
       });
 
       expenseInput.value = "";
@@ -57,13 +58,16 @@ export default {
       expenseList.value.splice(index, 1);
     };
 
-    const editExpense = () => {
-      if (isEditing.value == true) {
-        isEditing.value = false;
-      } else {
-        isEditing.value = true;
-        console.log(isEditing.value);
-      }
+    const editExpense = (index) => {
+      expenseList.value[index].isEditing = true;
+    };
+
+    const saveExpense = (index) => {
+      expenseList.value[index].isEditing = false;
+    };
+
+    const cancelEdit = (index) => {
+      expenseList.value[index].isEditing = false;
     };
 
     return {
@@ -73,6 +77,8 @@ export default {
       addToList,
       removeFromList,
       editExpense,
+      saveExpense,
+      cancelEdit,
     };
   },
 };
