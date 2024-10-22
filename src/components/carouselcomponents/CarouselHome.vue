@@ -22,7 +22,7 @@ export default {
   name: "CarouselHome",
   setup() {
     const renderComp = ref([FirstCarousel, SecondCarousel, ThirdCarousel]);
-    const currentIndex = ref(0);
+    const currentIndex = ref(1);
 
     const lastComp = () => {
       if (currentIndex.value === 0) {

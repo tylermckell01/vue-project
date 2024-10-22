@@ -1,7 +1,7 @@
 <template>
   <div class="carousel-container">
     <div class="title">Weather Component</div>
-    <div class="component">
+    <div class="component first">
       <div class="input">
         <input
           type="text"
@@ -40,7 +40,6 @@ export default {
     const fetchData = async () => {
       if (!inputCity.value.trim()) {
         cityError.value = "Please enter a city name.";
-        data.value = null;
         return;
       }
 
@@ -86,6 +85,9 @@ export default {
   }
 
   .component {
+    width: 400px;
+    height: 400px;
+
     .input {
       display: flex;
 
@@ -104,6 +106,10 @@ export default {
     }
     .time {
     }
+  }
+
+  .first {
+    background-color: gray;
   }
 }
 </style>

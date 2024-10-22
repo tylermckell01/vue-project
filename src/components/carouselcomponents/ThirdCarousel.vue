@@ -1,7 +1,7 @@
 <template>
   <div class="carousel-container">
     <div class="title">Third Component Title</div>
-    <div class="component">Third Component</div>
+    <div class="component third">Third Component</div>
   </div>
 </template>
 
@@ -21,6 +21,9 @@ export default {
   }
 
   .component {
+  }
+
+  .third {
   }
 }
 </style>
