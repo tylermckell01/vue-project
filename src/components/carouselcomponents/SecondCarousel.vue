@@ -11,6 +11,7 @@
           @keydown.enter="addToList"
         />
         <button @click="addToList">add</button>
+        <div class="error-toast" v-if="errorToast">{{ errorToast }}</div>
       </div>
       <div class="list">
         <ul>
@@ -40,21 +41,36 @@ export default {
   name: "SecondCarousel",
   setup() {
     const expenseList = ref([]);
-    const expenseInput = ref();
-    const costInput = ref(0);
+    const expenseInput = ref("");
+    const costInput = ref("");
 
     const tempExpense = ref("");
-    const tempCost = ref(0);
+    const tempCost = ref(null);
+
+    const errorToast = ref("");
 
     const addToList = () => {
-      expenseList.value.push({
-        expense: expenseInput.value,
-        cost: costInput.value,
-        isEditing: false,
-      });
+      errorToast.value = "";
 
-      expenseInput.value = "";
-      costInput.value = 0;
+      if (!expenseInput.value && !costInput.value) {
+        errorToast.value = "must fill both fields";
+      } else if (!costInput.value) {
+        errorToast.value = "must add expense cost";
+      } else if (!expenseInput.value) {
+        errorToast.value = "must add expense name";
+      } else if (isNaN(costInput.value)) {
+        errorToast.value = "cost must be a number";
+      } else {
+        expenseList.value.push({
+          expense: expenseInput.value,
+          cost: parseFloat(costInput.value),
+          isEditing: false,
+        });
+
+        expenseInput.value = "";
+        costInput.value = "";
+      }
+      console.log(errorToast.value);
     };
 
     const removeFromList = (index) => {
@@ -83,6 +99,7 @@ export default {
       expenseList,
       tempExpense,
       tempCost,
+      errorToast,
       addToList,
       removeFromList,
       editExpense,
