@@ -6,7 +6,7 @@
         <input type="text" placeholder="add expense" v-model="expenseInput" />
         <input
           type="text"
-          placeholder="cost"
+          placeholder="$ cost"
           v-model="costInput"
           @keydown.enter="addToList"
         />
@@ -21,8 +21,8 @@
               <button @click="removeFromList(index)">-</button>
             </div>
             <div v-else>
-              <input v-model="item.expense" />
-              <input v-model="item.cost" />
+              <input v-model="tempExpense" />
+              <input v-model="tempCost" />
               <button @click="saveExpense(index)">save</button>
               <button @click="cancelEdit(index)">cancel</button>
             </div>
@@ -43,6 +43,9 @@ export default {
     const expenseInput = ref();
     const costInput = ref(0);
 
+    const tempExpense = ref("");
+    const tempCost = ref(0);
+
     const addToList = () => {
       expenseList.value.push({
         expense: expenseInput.value,
@@ -59,10 +62,14 @@ export default {
     };
 
     const editExpense = (index) => {
+      tempExpense.value = expenseList.value[index].expense;
+      tempCost.value = expenseList.value[index].cost;
       expenseList.value[index].isEditing = true;
     };
 
     const saveExpense = (index) => {
+      expenseList.value[index].expense = tempExpense.value;
+      expenseList.value[index].cost = tempCost.value;
       expenseList.value[index].isEditing = false;
     };
 
@@ -74,6 +81,8 @@ export default {
       expenseInput,
       costInput,
       expenseList,
+      tempExpense,
+      tempCost,
       addToList,
       removeFromList,
       editExpense,
