@@ -11,7 +11,9 @@
           @keydown.enter="addToList"
         />
         <button @click="addToList">add</button>
-        <div class="error-toast" v-if="errorToast">{{ errorToast }}</div>
+        <div class="error-toast" v-if="errorToast">
+          {{ isEditing ? "" : errorToast }}
+        </div>
       </div>
       <div class="list">
         <ul>
@@ -26,6 +28,7 @@
               <input v-model="tempCost" />
               <button @click="saveExpense(index)">save</button>
               <button @click="cancelEdit(index)">cancel</button>
+              <div class="error-toast" v-if="errorToast">{{ errorToast }}</div>
             </div>
           </li>
         </ul>
@@ -84,9 +87,22 @@ export default {
     };
 
     const saveExpense = (index) => {
-      expenseList.value[index].expense = tempExpense.value;
-      expenseList.value[index].cost = tempCost.value;
-      expenseList.value[index].isEditing = false;
+      errorToast.value = "";
+
+      if (!tempExpense.value && !tempCost.value) {
+        errorToast.value = "must fill both fields";
+      } else if (!tempCost.value) {
+        errorToast.value = "must add expense cost";
+      } else if (!tempExpense.value) {
+        errorToast.value = "must add expense name";
+      } else if (isNaN(tempCost.value)) {
+        errorToast.value = "cost must be a number";
+      } else {
+        expenseList.value[index].expense = tempExpense.value;
+        expenseList.value[index].cost = parseFloat(tempCost.value);
+        expenseList.value[index].isEditing = false;
+      }
+      console.log(errorToast.value);
     };
 
     const cancelEdit = (index) => {
