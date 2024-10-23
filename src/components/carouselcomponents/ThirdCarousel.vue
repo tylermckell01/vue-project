@@ -24,6 +24,7 @@ export default {
   }
 
   .third {
+    background-color: red;
   }
 }
 </style>

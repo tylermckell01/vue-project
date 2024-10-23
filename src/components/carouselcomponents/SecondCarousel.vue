@@ -1,6 +1,6 @@
 <template>
   <div class="carousel-container">
-    <div class="title">second Component</div>
+    <div class="title">Expense Tracker Component</div>
     <div class="component second">
       <div class="add">
         <input type="text" placeholder="add expense" v-model="expenseInput" />
@@ -18,12 +18,18 @@
       <div class="list">
         <ul>
           <li v-for="(item, index) in expenseList" :key="index">
-            <div v-if="!item.isEditing">
+            <div v-if="!item.isEditing" class="not-editing">
               {{ item.expense }}: ${{ item.cost }}
-              <button @click="editExpense(index)">edit</button>
-              <button @click="removeFromList(index)">-</button>
+              <div class="buttons-container">
+                <button @click="editExpense(index)">
+                  <font-awesome-icon icon="fa-regular fa-pen-to-square" />
+                </button>
+                <button @click="removeFromList(index)">
+                  <font-awesome-icon icon="fa-solid fa-trash" />
+                </button>
+              </div>
             </div>
-            <div v-else>
+            <div v-else class="editing">
               <input v-model="tempExpense" />
               <input v-model="tempCost" />
               <button @click="saveExpense(index)">save</button>
@@ -131,7 +137,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .carousel-container {
   display: flex;
   flex-direction: column;
@@ -141,15 +147,57 @@ export default {
   }
 
   .component {
-    input {
+    .add {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      padding: 10px 0;
+
+      input {
+        width: 115px;
+      }
+
+      button {
+      }
+
+      .error-toast {
+      }
     }
 
-    button {
+    .list {
+      text-align: left;
+
+      ul {
+        li {
+          .not-editing {
+            display: flex;
+            justify-content: space-between;
+
+            .buttons-container {
+              display: flex;
+              gap: 5px;
+              padding-right: 25px;
+
+              button {
+              }
+            }
+          }
+          .editing {
+            input {
+            }
+            button {
+            }
+            .error-toast {
+            }
+          }
+        }
+      }
     }
   }
 
   .second {
-    background-color: teal;
+    background-color: #35485e;
+    color: white;
   }
 }
 </style>

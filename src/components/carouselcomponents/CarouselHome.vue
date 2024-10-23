@@ -1,7 +1,11 @@
 <template>
   <div class="carousel-container">
     <div class="title">Carousel</div>
-    <component :is="renderComp[currentIndex]"></component>
+    <!-- <component :is="renderComp[currentIndex]"></component> -->
+    <keep-alive>
+      <component :is="renderComp[currentIndex]"></component>
+    </keep-alive>
+
     <div class="selector">
       <button @click="lastComp">{{ "<" }}</button>
       <div class="selector-circle" :class="{ active: currentIndex == 0 }"></div>
@@ -22,7 +26,7 @@ export default {
   name: "CarouselHome",
   setup() {
     const renderComp = ref([FirstCarousel, SecondCarousel, ThirdCarousel]);
-    const currentIndex = ref(0);
+    const currentIndex = ref(1);
 
     const lastComp = () => {
       if (currentIndex.value === 0) {
@@ -84,7 +88,7 @@ export default {
     }
 
     .active {
-      background-color: blue;
+      background-color: #3fb883;
     }
   }
 }

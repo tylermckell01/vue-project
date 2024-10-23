@@ -30,13 +30,13 @@
 <script>
 import { ref } from "vue";
 
-const data = ref(null);
-const inputCity = ref("");
-const cityError = ref(null);
-
 export default {
   name: "FirstCarousel",
   setup() {
+    const data = ref(null);
+    const inputCity = ref("");
+    const cityError = ref(null);
+
     const fetchData = async () => {
       if (!inputCity.value.trim()) {
         cityError.value = "Please enter a city name.";
