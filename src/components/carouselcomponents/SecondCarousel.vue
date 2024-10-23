@@ -11,8 +11,8 @@
           @keydown.enter="addToList"
         />
         <button @click="addToList">add</button>
-        <div class="error-toast" v-if="errorToast">
-          {{ isEditing ? "" : errorToast }}
+        <div class="error-toast" v-if="addErrorToast">
+          {{ addErrorToast }}
         </div>
       </div>
       <div class="list">
@@ -28,7 +28,9 @@
               <input v-model="tempCost" />
               <button @click="saveExpense(index)">save</button>
               <button @click="cancelEdit(index)">cancel</button>
-              <div class="error-toast" v-if="errorToast">{{ errorToast }}</div>
+              <div class="error-toast" v-if="item.isEditing && editErrorToast">
+                {{ editErrorToast }}
+              </div>
             </div>
           </li>
         </ul>
@@ -50,19 +52,20 @@ export default {
     const tempExpense = ref("");
     const tempCost = ref(null);
 
-    const errorToast = ref("");
+    const addErrorToast = ref("");
+    const editErrorToast = ref("");
 
     const addToList = () => {
-      errorToast.value = "";
+      addErrorToast.value = "";
 
       if (!expenseInput.value && !costInput.value) {
-        errorToast.value = "must fill both fields";
+        addErrorToast.value = "must fill both fields";
       } else if (!costInput.value) {
-        errorToast.value = "must add expense cost";
+        addErrorToast.value = "must add expense cost";
       } else if (!expenseInput.value) {
-        errorToast.value = "must add expense name";
+        addErrorToast.value = "must add expense name";
       } else if (isNaN(costInput.value)) {
-        errorToast.value = "cost must be a number";
+        addErrorToast.value = "cost must be a number";
       } else {
         expenseList.value.push({
           expense: expenseInput.value,
@@ -73,7 +76,7 @@ export default {
         expenseInput.value = "";
         costInput.value = "";
       }
-      console.log(errorToast.value);
+      console.log(addErrorToast.value);
     };
 
     const removeFromList = (index) => {
@@ -87,22 +90,23 @@ export default {
     };
 
     const saveExpense = (index) => {
-      errorToast.value = "";
+      editErrorToast.value = "";
 
       if (!tempExpense.value && !tempCost.value) {
-        errorToast.value = "must fill both fields";
+        editErrorToast.value = "must fill both fields";
       } else if (!tempCost.value) {
-        errorToast.value = "must add expense cost";
+        editErrorToast.value = "must add expense cost";
       } else if (!tempExpense.value) {
-        errorToast.value = "must add expense name";
+        editErrorToast.value = "must add expense name";
       } else if (isNaN(tempCost.value)) {
-        errorToast.value = "cost must be a number";
+        editErrorToast.value = "cost must be a number";
       } else {
         expenseList.value[index].expense = tempExpense.value;
         expenseList.value[index].cost = parseFloat(tempCost.value);
         expenseList.value[index].isEditing = false;
+        editErrorToast.value = "";
       }
-      console.log(errorToast.value);
+      console.log(editErrorToast.value);
     };
 
     const cancelEdit = (index) => {
@@ -115,7 +119,8 @@ export default {
       expenseList,
       tempExpense,
       tempCost,
-      errorToast,
+      addErrorToast,
+      editErrorToast,
       addToList,
       removeFromList,
       editExpense,
