@@ -22,7 +22,7 @@ export default {
   name: "CarouselHome",
   setup() {
     const renderComp = ref([FirstCarousel, SecondCarousel, ThirdCarousel]);
-    const currentIndex = ref(1);
+    const currentIndex = ref(0);
 
     const lastComp = () => {
       if (currentIndex.value === 0) {
@@ -56,7 +56,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .carousel-container {
   display: flex;
   flex-direction: column;
@@ -70,6 +70,8 @@ export default {
 
   .selector {
     display: flex;
+    margin-top: 20px;
+    margin-bottom: 100px;
 
     button {
     }
