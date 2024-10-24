@@ -3,14 +3,16 @@
     <div class="title">Expense Tracker Component</div>
     <div class="component second">
       <div class="add">
-        <input type="text" placeholder="add expense" v-model="expenseInput" />
-        <input
-          type="text"
-          placeholder="$ cost"
-          v-model="costInput"
-          @keydown.enter="addToList"
-        />
-        <button @click="addToList">add</button>
+        <div>
+          <input type="text" placeholder="add expense" v-model="expenseInput" />
+          <input
+            type="text"
+            placeholder="$ cost"
+            v-model="costInput"
+            @keydown.enter="addToList"
+          />
+          <button @click="addToList">add</button>
+        </div>
         <div class="error-toast" v-if="addErrorToast">
           {{ addErrorToast }}
         </div>
@@ -149,15 +151,20 @@ export default {
   .component {
     .add {
       display: flex;
-      justify-content: center;
-      gap: 5px;
-      padding: 10px 0;
+      flex-direction: column;
 
-      input {
-        width: 115px;
-      }
+      div {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+        padding: 10px 0;
 
-      button {
+        input {
+          width: 115px;
+        }
+
+        button {
+        }
       }
 
       .error-toast {
@@ -172,6 +179,7 @@ export default {
           .not-editing {
             display: flex;
             justify-content: space-between;
+            font-weight: 600;
 
             .buttons-container {
               display: flex;
