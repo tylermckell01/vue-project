@@ -1,7 +1,17 @@
 <template>
   <div class="carousel-container">
-    <div class="title">Third Component Title</div>
-    <div class="component third">Third Component</div>
+    <div class="title">Tic-Tac-Toe Component</div>
+    <div class="component third">
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+    </div>
   </div>
 </template>
 
@@ -11,7 +21,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .carousel-container {
   display: flex;
   flex-direction: column;
@@ -21,10 +31,24 @@ export default {
   }
 
   .component {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    padding: 30px;
+    gap: 5px;
+
+    .box {
+      background-color: gray;
+      border: solid 1px black;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
 
   .third {
-    background-color: red;
+    background-color: #6d6dfc;
   }
 }
 </style>
